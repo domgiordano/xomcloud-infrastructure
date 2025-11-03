@@ -1,0 +1,158 @@
+variable "app_name" {
+  description = "The name for the application."
+  default = "xomcloud"
+}
+
+variable "access_key" {
+  description = "AWS access key."
+  sensitive = true
+}
+
+variable "secret_key" {
+  description = "AWS secret key."
+  sensitive = true
+}
+
+variable "client_id" {
+  description = "Spotify Web API Client ID"
+  sensitive = true
+}
+
+variable "client_secret" {
+  description = "Spotify Web API Client Secret"
+  sensitive = true
+}
+
+variable  api_access_token {
+  description = "API access token"
+  sensitive   = true
+}
+
+variable "api_secret_key" {
+  description = "API Secret Key for FE / BE to use"
+  sensitive = true
+}
+
+variable "domain_suffix"{
+    description = "Suffix for the domain of the app."
+    default = ".com"
+}
+
+variable "aws_region" {
+  default = "us-east-1"
+}
+
+variable "cloudfront_origin_id" {
+  type        = string
+  description = "unique origin id for cloudfront distribution"
+  default = "xomcloudWeb"
+}
+
+variable "cloudfront_origin_path" {
+  type        = string
+  default     = ""
+  description = "Optional element for cloudfront distribution that causes CloudFront to request your content from a directory in your Amazon S3 bucket or your custom origin."
+}
+
+variable "us_canada_only" {
+  type        = bool
+  default     = true
+  description = "If a georestriction should be placed on the distribution to only provide access to the US and Canada"
+}
+
+variable "custom_record_name" {
+  type        = string
+  default     = ""
+  description = "custom domain name to use, if one is desired."
+}
+
+variable "custom_error_response_page_path" {
+  type        = string
+  default     = "/index.html"
+  description = "custom error response page path."
+}
+
+variable "retain_on_delete" {
+  type        = bool
+  default     = false
+  description = "Disables the distribution instead of deleting it when destroying the resource through Terraform."
+}
+
+
+variable "minimum_tls_version" {
+  type        = string
+  default     = "TLSv1.2_2018"
+  description = "minimum tls version"
+}
+
+variable "enable_cloudfront_cache" {
+  type        = bool
+  default     = true
+  description = "This variable controls the cloudfront cache. Setting this to false will set the default_ttl and max_ttl values to zero"
+}
+
+# Lambda
+variable "lambda_runtime" {
+  type = string
+  default = "python3.10"
+}
+
+variable "lambda_trace_mode"{
+  type = string
+  default = "Active"
+}
+
+variable "lambda_aiohttp_active"{
+  type = bool
+  default = false
+}
+
+# ========================================
+# SoundCloud API Variables
+# ========================================
+
+variable "soundcloud_client_id" {
+  description = "SoundCloud API Client ID"
+  type        = string
+  sensitive   = true
+}
+
+variable "soundcloud_client_secret" {
+  description = "SoundCloud API Client Secret"
+  type        = string
+  sensitive   = true
+}
+
+# ========================================
+# ECS Configuration Variables
+# ========================================
+
+variable "ecs_task_cpu" {
+  description = "CPU units for ECS task (1024 = 1 vCPU)"
+  type        = number
+  default     = 2048
+}
+
+variable "ecs_task_memory" {
+  description = "Memory for ECS task in MB"
+  type        = number
+  default     = 4096
+}
+
+variable "ecs_desired_count" {
+  description = "Desired number of ECS tasks"
+  type        = number
+  default     = 1
+}
+
+variable "ecs_min_capacity" {
+  description = "Minimum number of ECS tasks for autoscaling"
+  type        = number
+  default     = 1
+}
+
+variable "ecs_max_capacity" {
+  description = "Maximum number of ECS tasks for autoscaling"
+  type        = number
+  default     = 4
+}
