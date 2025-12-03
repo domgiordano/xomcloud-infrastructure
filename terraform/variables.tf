@@ -13,26 +13,6 @@ variable "secret_key" {
   sensitive = true
 }
 
-variable "client_id" {
-  description = "Spotify Web API Client ID"
-  sensitive = true
-}
-
-variable "client_secret" {
-  description = "Spotify Web API Client Secret"
-  sensitive = true
-}
-
-variable  api_access_token {
-  description = "API access token"
-  sensitive   = true
-}
-
-variable "api_secret_key" {
-  description = "API Secret Key for FE / BE to use"
-  sensitive = true
-}
-
 variable "domain_suffix"{
     description = "Suffix for the domain of the app."
     default = ".com"

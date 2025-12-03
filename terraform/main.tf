@@ -3,7 +3,7 @@ terraform {
     organization = "Domjgiordano"
 
     workspaces {
-      name = "angular-spotify-infrastructure"
+      name = "xomcloud-infrastructure"
     }
   }
 }
