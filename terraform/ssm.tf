@@ -29,3 +29,20 @@ resource "aws_ssm_parameter" "soundcloud_client_secret"{
     value       = var.soundcloud_client_secret
     tags        = merge(local.standard_tags, tomap({"name" = "${var.app_name}-soundcloud-client-secret"}))
 }
+
+# API
+resource "aws_ssm_parameter" "api_auth_token"{
+    name        = "/${var.app_name}/api/API_AUTH_TOKEN"
+    description = "Soundcloud Web API Auth Token"
+    type        = "SecureString"
+    value       = var.api_access_token
+    tags        = merge(local.standard_tags, tomap({"name" = "${var.app_name}-api-auth-token"}))
+}
+
+resource "aws_ssm_parameter" "api_id"{
+    name        = "/${var.app_name}/api/API_ID"
+    description = "Soundcloud Web API ID"
+    type        = "SecureString"
+    value       = aws_api_gateway_rest_api.api_gateway.id
+    tags        = merge(local.standard_tags, tomap({"name" = "${var.app_name}-api-id"}))
+}

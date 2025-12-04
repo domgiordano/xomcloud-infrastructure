@@ -22,6 +22,11 @@ variable "aws_region" {
   default = "us-east-1"
 }
 
+variable  api_access_token {
+  description = "API access token"
+  sensitive   = true
+}
+
 variable "cloudfront_origin_id" {
   type        = string
   description = "unique origin id for cloudfront distribution"
