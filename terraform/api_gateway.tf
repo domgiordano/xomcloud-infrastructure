@@ -140,5 +140,5 @@ resource "aws_lambda_permission" "download_tracks_post_permission"{
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.download_tracks.function_name
   principal     = "apigateway.amazonaws.com"
-  source_arn    = "${aws_api_gateway_rest_api.api_gateway.execution_arn}/*/POST/${aws_api_gateway_resource.download_resource.path_part}/tracks"
+  source_arn    = "${aws_api_gateway_rest_api.api_gateway.execution_arn}/*/POST/${aws_api_gateway_resource.download_resource.path_part}"
 }
