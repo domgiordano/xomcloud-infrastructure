@@ -10,7 +10,7 @@ resource "aws_lambda_function" "download_tracks" {
   timeout           = 900
   role              = aws_iam_role.lambda_role.arn
   environment {
-    variables = local.lambda_variables
+    variables = merge(local.lambda_variables, { S3_DOWNLOAD_BUCKET_NAME = aws_s3_bucket.downloads.id })
   }
 
   vpc_config {
