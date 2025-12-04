@@ -22,8 +22,13 @@ variable "aws_region" {
   default = "us-east-1"
 }
 
-variable  api_access_token {
-  description = "API access token"
+variable  "api_auth_token" {
+  description = "API Auth token"
+  sensitive   = true
+}
+
+variable  "api_secret_key" {
+  description = "API secret key"
   sensitive   = true
 }
 
