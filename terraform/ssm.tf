@@ -31,26 +31,26 @@ resource "aws_ssm_parameter" "soundcloud_client_secret"{
 }
 
 # API
-resource "aws_ssm_parameter" "api_auth_token"{
-    name        = "/${var.app_name}/api/API_AUTH_TOKEN"
-    description = "Soundcloud Web API Auth Token"
-    type        = "SecureString"
-    value       = var.api_auth_token
-    tags        = merge(local.standard_tags, tomap({"name" = "${var.app_name}-api-auth-token"}))
-}
+# resource "aws_ssm_parameter" "api_auth_token"{
+#     name        = "/${var.app_name}/api/API_AUTH_TOKEN"
+#     description = "Soundcloud Web API Auth Token"
+#     type        = "SecureString"
+#     value       = var.api_auth_token
+#     tags        = merge(local.standard_tags, tomap({"name" = "${var.app_name}-api-auth-token"}))
+# }
 
-resource "aws_ssm_parameter" "api_secret_key"{
-    name        = "/${var.app_name}/api/API_SECRET_KEY"
-    description = "Soundcloud Web API Secret Key"
-    type        = "SecureString"
-    value       = var.api_secret_key
-    tags        = merge(local.standard_tags, tomap({"name" = "${var.app_name}-api-secret-key"}))
-}
+# resource "aws_ssm_parameter" "api_secret_key"{
+#     name        = "/${var.app_name}/api/API_SECRET_KEY"
+#     description = "Soundcloud Web API Secret Key"
+#     type        = "SecureString"
+#     value       = var.api_secret_key
+#     tags        = merge(local.standard_tags, tomap({"name" = "${var.app_name}-api-secret-key"}))
+# }
 
-resource "aws_ssm_parameter" "api_id"{
-    name        = "/${var.app_name}/api/API_ID"
-    description = "Soundcloud Web API ID"
-    type        = "SecureString"
-    value       = aws_api_gateway_rest_api.api_gateway.id
-    tags        = merge(local.standard_tags, tomap({"name" = "${var.app_name}-api-id"}))
-}
+# resource "aws_ssm_parameter" "api_id"{
+#     name        = "/${var.app_name}/api/API_ID"
+#     description = "Soundcloud Web API ID"
+#     type        = "SecureString"
+#     value       = aws_api_gateway_rest_api.api_gateway.id
+#     tags        = merge(local.standard_tags, tomap({"name" = "${var.app_name}-api-id"}))
+# }
