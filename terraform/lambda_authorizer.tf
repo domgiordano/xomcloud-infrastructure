@@ -2,13 +2,12 @@
 resource "aws_lambda_function" "authorizer" {
   function_name     = "${var.app_name}-authorizer"
   description       = "Lambda Authorizer for ${var.app_name}"
-  filename          = "./templates/lambda_stub.zip"
-  source_code_hash  = filebase64sha256("./templates/lambda_stub.zip")
+  package_type  = "Image"
+  image_uri     = "${aws_ecr_repository.authorizer.repository_url}:latest"
   handler           = "handler.handler"
-  layers            = [aws_lambda_layer_version.lambda_layer.arn]
   runtime           = var.lambda_runtime
-  memory_size       = 1024
-  timeout           = 900
+  memory_size       = 256
+  timeout           = 30
   role              = aws_iam_role.lambda_role.arn
 
   environment {
@@ -38,12 +37,14 @@ resource "aws_lambda_function" "authorizer" {
   ]
 
 }
-
 resource "aws_api_gateway_authorizer" "lambda_authorizer" {
-  name                   = "${var.app_name}-Api-Gateway-Lambda-Authorizer"
+  name                   = "${var.app_name}-authorizer"
   rest_api_id            = aws_api_gateway_rest_api.api_gateway.id
   authorizer_uri         = aws_lambda_function.authorizer.invoke_arn
-  authorizer_credentials = aws_iam_role.lambda_role.arn
+  authorizer_credentials = aws_iam_role.api_gateway_auth.arn
+  type                   = "TOKEN"
+  identity_source        = "method.request.header.Authorization"
+  authorizer_result_ttl_in_seconds = 300
 }
 
 #Give api gateway permission to invoke lambda authorizer

@@ -1,13 +1,13 @@
 resource "aws_lambda_function" "download_tracks" {
 
   function_name     = "${var.app_name}-download-tracks"
-  filename          = "./templates/lambda_stub.zip"
-  source_code_hash  = filebase64sha256("./templates/lambda_stub.zip")
+  package_type  = "Image"
+  image_uri     = "${aws_ecr_repository.download_tracks.repository_url}:latest"
   handler           = "handler.handler"
   layers            = [aws_lambda_layer_version.lambda_layer.arn]
   runtime           = var.lambda_runtime
   memory_size       = 1024
-  timeout           = 900
+  timeout           = 300
   role              = aws_iam_role.lambda_role.arn
   environment {
     variables = merge(local.lambda_variables, { S3_DOWNLOAD_BUCKET_NAME = aws_s3_bucket.downloads.id })
