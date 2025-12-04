@@ -2,8 +2,8 @@
 resource "aws_lambda_function" "authorizer" {
   function_name     = "${var.app_name}-authorizer"
   description       = "Lambda Authorizer for ${var.app_name}"
-  package_type  = "Image"
-  image_uri     = "${aws_ecr_repository.authorizer.repository_url}:latest"
+  package_type      = "Image"
+  image_uri         = "${aws_ecr_repository.authorizer.repository_url}:latest"
   handler           = "handler.handler"
   runtime           = var.lambda_runtime
   memory_size       = 256
@@ -41,7 +41,7 @@ resource "aws_api_gateway_authorizer" "lambda_authorizer" {
   name                   = "${var.app_name}-authorizer"
   rest_api_id            = aws_api_gateway_rest_api.api_gateway.id
   authorizer_uri         = aws_lambda_function.authorizer.invoke_arn
-  authorizer_credentials = aws_iam_role.api_gateway_auth.arn
+  authorizer_credentials = aws_iam_role.lambda_role.arn
   type                   = "TOKEN"
   identity_source        = "method.request.header.Authorization"
   authorizer_result_ttl_in_seconds = 300
