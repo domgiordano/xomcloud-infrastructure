@@ -14,7 +14,7 @@ resource "aws_lambda_function" "authorizer" {
   }
 
   image_config {
-    command = ["lambdas.authorizer.handler"] 
+    command = ["lambdas.authorizer.handler.handler"] 
   }
 
   tags = merge(local.standard_tags, tomap({"name" = "${var.app_name}-authorizer"}))
