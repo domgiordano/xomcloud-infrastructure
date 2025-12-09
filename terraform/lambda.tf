@@ -1,8 +1,7 @@
 resource "aws_lambda_function" "download_tracks" {
   function_name     = "${var.app_name}-download-tracks"
   package_type      = "Image"
-  handler          = "handler.handler"
-  #architectures     = ["arm64"]
+  architectures     = ["arm64"]
   image_uri         = "${aws_ecr_repository.download_tracks.repository_url}:latest"
   memory_size       = 1024
   timeout           = 300
