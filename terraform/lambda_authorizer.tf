@@ -12,6 +12,11 @@ resource "aws_lambda_function" "authorizer" {
   environment {
     variables = local.lambda_variables
   }
+
+  image_config {
+    command = ["lambdas.authorizer.handler"] 
+  }
+
   tags = merge(local.standard_tags, tomap({"name" = "${var.app_name}-authorizer"}))
 
   tracing_config {
