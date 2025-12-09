@@ -3,7 +3,7 @@ resource "aws_lambda_function" "authorizer" {
   function_name     = "${var.app_name}-authorizer"
   description       = "Lambda Authorizer for ${var.app_name}"
   package_type      = "Image"
-  architectures     = ["arm64"]
+  architectures     = ["x86_64"]
   image_uri         = "${aws_ecr_repository.authorizer.repository_url}:latest"
   memory_size       = 256
   timeout           = 30
