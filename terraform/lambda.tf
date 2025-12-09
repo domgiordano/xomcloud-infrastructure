@@ -12,7 +12,7 @@ resource "aws_lambda_function" "download_tracks" {
   }
 
   image_config {
-    command = ["lambdas.download_tracks.handler"] 
+    command = ["lambdas.download_tracks.handler.handler"] 
   }
 
   tags = merge(local.standard_tags, tomap({"name" = "${var.app_name}-download-tracks"}))
