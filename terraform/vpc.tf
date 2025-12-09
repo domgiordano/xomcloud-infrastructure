@@ -29,25 +29,25 @@ resource "aws_subnet" "public_subnet_2" {
   }
 }
 
-resource "aws_subnet" "private_subnet_1" {
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = "10.0.3.0/24"
-  availability_zone = "us-east-1c"  # Change as needed
+# resource "aws_subnet" "private_subnet_1" {
+#   vpc_id            = aws_vpc.main.id
+#   cidr_block        = "10.0.3.0/24"
+#   availability_zone = "us-east-1c"  # Change as needed
 
-  tags = {
-    Name = "PrivateSubnet1"
-  }
-}
+#   tags = {
+#     Name = "PrivateSubnet1"
+#   }
+# }
 
-resource "aws_subnet" "private_subnet_2" {
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = "10.0.4.0/24"
-  availability_zone = "us-east-1d"  # Change as needed
+# resource "aws_subnet" "private_subnet_2" {
+#   vpc_id            = aws_vpc.main.id
+#   cidr_block        = "10.0.4.0/24"
+#   availability_zone = "us-east-1d"  # Change as needed
 
-  tags = {
-    Name = "PrivateSubnet2"
-  }
-}
+#   tags = {
+#     Name = "PrivateSubnet2"
+#   }
+# }
 
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.main.id
@@ -80,43 +80,43 @@ resource "aws_route_table_association" "public_subnet_2_association" {
   route_table_id = aws_route_table.public_route_table.id
 }
 
-resource "aws_nat_gateway" "nat" {
-  allocation_id = aws_eip.nat_eip.id
-  subnet_id    = aws_subnet.public_subnet_1.id
+# resource "aws_nat_gateway" "nat" {
+#   allocation_id = aws_eip.nat_eip.id
+#   subnet_id    = aws_subnet.public_subnet_1.id
 
-  tags = {
-    Name = "${var.app_name}-ngw"
-  }
-}
+#   tags = {
+#     Name = "${var.app_name}-ngw"
+#   }
+# }
 
-resource "aws_eip" "nat_eip" {
-  tags = {
-    Name = "${var.app_name}-nat-eip"
-  }
-}
+# resource "aws_eip" "nat_eip" {
+#   tags = {
+#     Name = "${var.app_name}-nat-eip"
+#   }
+# }
 
-resource "aws_route_table" "private_route_table" {
-  vpc_id = aws_vpc.main.id
+# resource "aws_route_table" "private_route_table" {
+#   vpc_id = aws_vpc.main.id
 
-  route {
-    cidr_block = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.nat.id
-  }
+#   route {
+#     cidr_block = "0.0.0.0/0"
+#     nat_gateway_id = aws_nat_gateway.nat.id
+#   }
 
-  tags = {
-    Name = "${var.app_name}-priv-rt"
-  }
-}
+#   tags = {
+#     Name = "${var.app_name}-priv-rt"
+#   }
+# }
 
-resource "aws_route_table_association" "private_subnet_1_association" {
-  subnet_id      = aws_subnet.private_subnet_1.id
-  route_table_id = aws_route_table.private_route_table.id
-}
+# resource "aws_route_table_association" "private_subnet_1_association" {
+#   subnet_id      = aws_subnet.private_subnet_1.id
+#   route_table_id = aws_route_table.private_route_table.id
+# }
 
-resource "aws_route_table_association" "private_subnet_2_association" {
-  subnet_id      = aws_subnet.private_subnet_2.id
-  route_table_id = aws_route_table.private_route_table.id
-}
+# resource "aws_route_table_association" "private_subnet_2_association" {
+#   subnet_id      = aws_subnet.private_subnet_2.id
+#   route_table_id = aws_route_table.private_route_table.id
+# }
 
 
 # ========================================
@@ -188,29 +188,5 @@ resource "aws_security_group" "alb_sg" {
   }
 
   tags = merge(local.standard_tags, tomap({"name" = "${var.app_name}-alb-sg"}))
-}
-
-resource "aws_security_group" "ecs_sg" {
-  name        = "${var.app_name}-ecs-sg"
-  description = "Security group for ECS tasks"
-  vpc_id      = aws_vpc.main.id
-
-  ingress {
-    description     = "Allow traffic from ALB"
-    from_port       = 5000
-    to_port         = 5000
-    protocol        = "tcp"
-    security_groups = [aws_security_group.alb_sg.id]
-  }
-
-  egress {
-    description = "Allow all outbound"
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = merge(local.standard_tags, tomap({"name" = "${var.app_name}-ecs-sg"}))
 }
 
