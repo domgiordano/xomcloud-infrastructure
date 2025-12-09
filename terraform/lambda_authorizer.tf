@@ -3,9 +3,8 @@ resource "aws_lambda_function" "authorizer" {
   function_name     = "${var.app_name}-authorizer"
   description       = "Lambda Authorizer for ${var.app_name}"
   package_type      = "Image"
+  architectures     = ["arm64"]
   image_uri         = "${aws_ecr_repository.authorizer.repository_url}:latest"
-  handler           = "handler.handler"
-  runtime           = var.lambda_runtime
   memory_size       = 256
   timeout           = 30
   role              = aws_iam_role.lambda_role.arn
