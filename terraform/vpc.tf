@@ -1,33 +1,33 @@
-# ## VPC Resources
-# resource "aws_vpc" "main" {
-#   cidr_block = "10.0.0.0/16"
-#   enable_dns_support = true
-#   enable_dns_hostnames = true
+## VPC Resources
+resource "aws_vpc" "main" {
+  cidr_block = "10.0.0.0/16"
+  enable_dns_support = true
+  enable_dns_hostnames = true
 
-#   tags = {
-#     Name = "${var.app_name}-vpc"
-#   }
-# }
+  tags = {
+    Name = "${var.app_name}-vpc"
+  }
+}
 
-# resource "aws_subnet" "public_subnet_1" {
-#   vpc_id            = aws_vpc.main.id
-#   cidr_block        = "10.0.1.0/24"
-#   availability_zone = "us-east-1a"  # Change as needed
+resource "aws_subnet" "public_subnet_1" {
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.0.1.0/24"
+  availability_zone = "us-east-1a"  # Change as needed
 
-#   tags = {
-#     Name = "PublicSubnet1"
-#   }
-# }
+  tags = {
+    Name = "PublicSubnet1"
+  }
+}
 
-# resource "aws_subnet" "public_subnet_2" {
-#   vpc_id            = aws_vpc.main.id
-#   cidr_block        = "10.0.2.0/24"
-#   availability_zone = "us-east-1b"  # Change as needed
+resource "aws_subnet" "public_subnet_2" {
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.0.2.0/24"
+  availability_zone = "us-east-1b"  # Change as needed
 
-#   tags = {
-#     Name = "PublicSubnet2"
-#   }
-# }
+  tags = {
+    Name = "PublicSubnet2"
+  }
+}
 
 # resource "aws_subnet" "private_subnet_1" {
 #   vpc_id            = aws_vpc.main.id
@@ -127,12 +127,6 @@ resource "aws_security_group" "lambda_sg" {
   name   = "${var.app_name}-lambda-sg"
   vpc_id = aws_vpc.main.id
 
-#   ingress {
-#     from_port   = 0
-#     to_port     = 65535
-#     protocol    = "tcp"
-#     cidr_blocks = ["0.0.0.0/0"]
-#   }
     ingress {
         from_port       = 0
         to_port         = 65535
@@ -157,36 +151,3 @@ resource "aws_security_group" "lambda_sg" {
     Name = "LambdaSecurityGroup"
   }
 }
-
-resource "aws_security_group" "alb_sg" {
-  name        = "${var.app_name}-alb-sg"
-  description = "Security group for ALB"
-  vpc_id      = aws_vpc.main.id
-
-  ingress {
-    description = "HTTPS from anywhere"
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    description = "HTTP from anywhere"
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    description = "Allow all outbound"
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = merge(local.standard_tags, tomap({"name" = "${var.app_name}-alb-sg"}))
-}
-
