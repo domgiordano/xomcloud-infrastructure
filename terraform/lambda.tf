@@ -2,7 +2,7 @@ resource "aws_lambda_function" "download_tracks" {
   function_name     = "${var.app_name}-download-tracks"
   description       = "Lambda Function for downloading soundcloud tracks, zipping, uploading to s3 and returning a presigned url."
   package_type      = "Image"
-  architectures     = ["arm64"]
+  architectures     = ["x86_64"]
   image_uri         = "${aws_ecr_repository.download_tracks.repository_url}:latest"
   memory_size       = 1024
   timeout           = 300
