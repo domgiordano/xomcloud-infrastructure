@@ -4,8 +4,6 @@ resource "aws_lambda_function" "download_tracks" {
   package_type      = "Image"
   architectures     = ["arm64"]
   image_uri         = "${aws_ecr_repository.download_tracks.repository_url}:latest"
-  handler           = "handler.handler"
-  runtime           = var.lambda_runtime
   memory_size       = 1024
   timeout           = 300
   role              = aws_iam_role.lambda_role.arn
